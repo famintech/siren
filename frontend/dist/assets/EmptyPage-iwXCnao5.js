@@ -1,0 +1,1 @@
+import{d as e,_ as t,c as o,o as s}from"./index-W9UAkHyD.js";const n=e({name:"emptyPage",setup(){return{}}}),a={class:"vh-100"};function c(r,p,_,d,m,f){return s(),o("div",a)}const u=t(n,[["render",c]]);export{u as default};

@@ -1,0 +1,46 @@
+# Use PHP 8.1 as the base image
+FROM php:8.1-fpm
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    libpq-dev
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd opcache
+
+# Copy custom PHP configuration
+COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Copy application files
+COPY . .
+
+# Install application dependencies
+RUN composer install --optimize-autoloader --no-dev
+
+# Generate application key
+RUN php artisan key:generate
+
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Expose port 9000 for PHP-FPM
+EXPOSE 9000
+
+# Start PHP-FPM
+CMD ["php-fpm"]
