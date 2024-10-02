@@ -56,6 +56,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,600,700');
@@ -31548,6 +31549,10 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 [data-typography='helvetica'] {
   font-family: 'HelveticaNeue';
+}
+
+[data-typography='inter'] {
+  font-family: "Inter", sans-serif;
 }
 
 :root {
