@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, watch } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import axios from 'axios'
 
@@ -18,6 +18,30 @@ export default defineComponent({
 
     const passwordMismatch = computed(() => {
       return password.value !== password_confirmation.value && password_confirmation.value !== ''
+    })
+
+    watch(name, () => {
+      if (errors.value?.name) {
+        errors.value.name = []
+      }
+    })
+
+    watch(email, () => {
+      if (errors.value?.email) {
+        errors.value.email = []
+      }
+    })
+
+    watch(password, () => {
+      if (errors.value?.password) {
+        errors.value.password = []
+      }
+    })
+
+    watch(password_confirmation, () => {
+      if (errors.value?.password_confirmation) {
+        errors.value.password_confirmation = []
+      }
     })
 
     const handleSubmit = async () => {
@@ -80,42 +104,42 @@ export default defineComponent({
               <p>Sign in to your account to start using PPZ</p>
             </div>
             <form @submit.prevent="handleSubmit">
-      <div class="mb-4">
-        <label class="mb-1 text-dark">Username</label>
-        <input v-model="name" type="text" class="form-control" :class="{ 'is-invalid': errors?.name }"
-          placeholder="Enter your username" required />
-        <div v-if="errors?.name" class="invalid-feedback">
-          {{ errors.name[0] }}
-        </div>
-      </div>
-      <div class="mb-4">
-        <label class="mb-1 text-dark">Email</label>
-        <input v-model="email" type="email" class="form-control" :class="{ 'is-invalid': errors?.email }"
-          placeholder="Enter your email" required />
-        <div v-if="errors?.email" class="invalid-feedback">
-          {{ errors.email[0] }}
-        </div>
-      </div>
-      <div class="mb-4">
-        <label class="mb-1 text-dark">Password</label>
-        <input v-model="password" :type="show ? 'text' : 'password'" class="form-control"
-          :class="{ 'is-invalid': errors?.password }" placeholder="Enter your password" required />
-        <div v-if="errors?.password" class="invalid-feedback">
-          {{ errors.password[0] }}
-        </div>
-      </div>
-      <div class="mb-4">
-        <label class="mb-1 text-dark">Confirm Password</label>
-        <input v-model="password_confirmation" :type="show ? 'text' : 'password'" class="form-control"
-          :class="{ 'is-invalid': errors?.password_confirmation || passwordMismatch }"
-          placeholder="Confirm your password" required />
-        <div v-if="errors?.password_confirmation" class="invalid-feedback">
-          {{ errors.password_confirmation[0] }}
-        </div>
-        <div v-else-if="passwordMismatch" class="invalid-feedback">
-          The password confirmation does not match.
-        </div>
-      </div>
+              <div class="mb-4">
+                <label class="mb-1 text-dark">Username</label>
+                <input v-model="name" type="text" class="form-control" :class="{ 'is-invalid': errors?.name?.length }"
+                  placeholder="Enter your username" required />
+                <div v-if="errors?.name?.length" class="invalid-feedback">
+                  {{ errors.name[0] }}
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="mb-1 text-dark">Email</label>
+                <input v-model="email" type="email" class="form-control" :class="{ 'is-invalid': errors?.email?.length }"
+                  placeholder="Enter your email" required />
+                <div v-if="errors?.email?.length" class="invalid-feedback">
+                  {{ errors.email[0] }}
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="mb-1 text-dark">Password</label>
+                <input v-model="password" :type="show ? 'text' : 'password'" class="form-control"
+                  :class="{ 'is-invalid': errors?.password?.length }" placeholder="Enter your password" required />
+                <div v-if="errors?.password?.length" class="invalid-feedback">
+                  {{ errors.password[0] }}
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="mb-1 text-dark">Confirm Password</label>
+                <input v-model="password_confirmation" :type="show ? 'text' : 'password'" class="form-control"
+                  :class="{ 'is-invalid': errors?.password_confirmation?.length || passwordMismatch }"
+                  placeholder="Confirm your password" required />
+                <div v-if="errors?.password_confirmation?.length" class="invalid-feedback">
+                  {{ errors.password_confirmation[0] }}
+                </div>
+                <div v-else-if="passwordMismatch" class="invalid-feedback">
+                  The password confirmation does not match.
+                </div>
+              </div>
               <div class="form-row d-flex justify-content-between mt-4 mb-2">
                 <div class="mb-4">
                   <div class="form-check custom-checkbox mb-3">
