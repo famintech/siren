@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +28,5 @@ Route::get('/redis-test', function () {
     Redis::set('test_keyy', 'Hello, Redis!');
     return Redis::get('test_keyy');
 });
+
+Route::post('/register', [RegisterController::class, 'register']);

@@ -11,7 +11,7 @@ interface subMenuType {
   className?: string
   subMenuDownItems?: sumMenuDownType[]
 }
-
+  
 interface menuType {
   icons?: string
   title?: string
@@ -22,6 +22,15 @@ interface menuType {
 
 const MenuItems = reactive<menuType[]>([
   { icons: SVGImage.iconSvg2, title: 'Employees', to: '/employee' },
+  {
+    icons: SVGImage.Security,
+    title: 'IAM',
+    className: 'sub-menu',
+    subMenuItems: [
+      { menu: 'Role', to: '/task' },
+      { menu: 'Permission', to: '/task-summary' }
+    ]
+  },
 ])
 
 export default MenuItems

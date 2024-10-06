@@ -530,8 +530,8 @@ const router = createRouter({
       meta: { layout4: 'layout4' }
     },
     {
-      path: '/page-register',
-      name: 'page_register',
+      path: '/register',
+      name: 'register',
       component: () => import('../views/pages/Register.vue'),
       meta: { layout4: 'layout4' }
     },

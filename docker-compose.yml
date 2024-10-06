@@ -12,19 +12,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  db:
-    image: postgres:15
-    container_name: db
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${DB_DATABASE}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - app_network
-
   redis:
     image: redis:alpine
     container_name: redis
