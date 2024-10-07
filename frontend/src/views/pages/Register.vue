@@ -2,10 +2,11 @@
 import { defineComponent, ref, computed, watch } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import axios from 'axios'
+import PasswordStrengthMeter from '@/views/pages/PasswordStrengthMeter.vue';
 
 export default defineComponent({
   name: 'register_',
-  components: { RouterLink },
+  components: { RouterLink, PasswordStrengthMeter },
   setup() {
     const router = useRouter()
     const show = ref(false)
@@ -13,12 +14,17 @@ export default defineComponent({
     const email = ref('')
     const password = ref('')
     const password_confirmation = ref('')
+    const passwordStrength = ref(0)
     const errors = ref<Record<string, string[]> | null>(null)
     const isSubmitting = ref(false)
 
     const passwordMismatch = computed(() => {
       return password.value !== password_confirmation.value && password_confirmation.value !== ''
     })
+
+    const updatePasswordStrength = (strength: number) => {
+      passwordStrength.value = strength
+    }
 
     watch(name, () => {
       if (errors.value?.name) {
@@ -84,6 +90,8 @@ export default defineComponent({
       email,
       password,
       password_confirmation,
+      passwordStrength,
+      updatePasswordStrength,
       errors,
       isSubmitting,
       handleSubmit,
@@ -114,8 +122,8 @@ export default defineComponent({
               </div>
               <div class="mb-4">
                 <label class="mb-1 text-dark">Email</label>
-                <input v-model="email" type="email" class="form-control" :class="{ 'is-invalid': errors?.email?.length }"
-                  placeholder="Enter your email" required />
+                <input v-model="email" type="email" class="form-control"
+                  :class="{ 'is-invalid': errors?.email?.length }" placeholder="Enter your email" required />
                 <div v-if="errors?.email?.length" class="invalid-feedback">
                   {{ errors.email[0] }}
                 </div>
@@ -124,6 +132,8 @@ export default defineComponent({
                 <label class="mb-1 text-dark">Password</label>
                 <input v-model="password" :type="show ? 'text' : 'password'" class="form-control"
                   :class="{ 'is-invalid': errors?.password?.length }" placeholder="Enter your password" required />
+                <PasswordStrengthMeter v-if="password.length > 0" :password="password"
+                  @strength-updated="updatePasswordStrength" />
                 <div v-if="errors?.password?.length" class="invalid-feedback">
                   {{ errors.password[0] }}
                 </div>
@@ -191,8 +201,7 @@ export default defineComponent({
               <RouterLink to="/"><img src="../../assets/images/logi-white.png" class="mb-3 logo-light" alt="" />
               </RouterLink>
               <p>
-                CRM dashboard uses line charts to visualize customer-related metrics and trends over
-                time.
+                Satu institusi zakat yang unggul dan menjadi salah satu teras sosio-ekonomi umat Islam.
               </p>
             </div>
             <div class="login-media text-center">
